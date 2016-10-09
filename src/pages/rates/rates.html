@@ -1,0 +1,45 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>rates</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="openHelp($event)">
+        About
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="loadTickers($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list *ngIf="currencies && currencies.length > 0">
+    <ion-item *ngFor="let currency of (currencies | selectedTicker)"
+              (click)="showDetails(currency.code)">
+      {{currency.code}} - {{currency.text}}
+      <span class="price" *ngIf="currency.ticker.last == currency.ticker['24h_avg']">
+         {{currency.ticker.last || '0.00'}}<br/>0.00
+      </span>
+
+      <span class="price negative" *ngIf="currency.ticker.last < currency.ticker['24h_avg']">
+         {{currency.ticker.last}}<br/>
+        <ion-icon name="ios-arrow-down"></ion-icon> {{currency.ticker['24h_avg'] - currency.ticker.last | number:'2.1-2'}}
+      </span>
+
+      <span class="price positive" *ngIf="currency.ticker.last > currency.ticker['24h_avg']">
+         {{currency.ticker.last}}<br/>
+        <ion-icon name="ios-arrow-up"></ion-icon> {{ currency.ticker.last - currency.ticker['24h_avg'] | number:'2.1-2'}}
+      </span>
+
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="dark">
+    <ion-title *ngIf="currencies" class="title">
+      Updated {{currencies[0].ticker.timestamp | date: 'mediumTime'}}
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

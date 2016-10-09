@@ -1,0 +1,21 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>currencies</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="reorderState = !reorderState">
+        Reorder
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list reorder="{{reorderState ? 'true' : 'false' }}" (ionItemReorder)="reorderItems($event)">
+    <ion-item class="item-toggle" *ngFor="let currency of currencies">
+      <ion-label>{{currency.code}} - {{currency.text}}</ion-label>
+      <ion-toggle (ionChange)="updateSelected(currency)" [(ngModel)]="currency.selected"></ion-toggle>
+    </ion-item>
+  </ion-list>
+</ion-content>

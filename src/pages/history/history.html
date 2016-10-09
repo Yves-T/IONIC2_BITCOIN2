@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar color="primary" hideBackButton="true">
+    <ion-title>history</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-item>
+    <ion-label>
+      Currency
+    </ion-label>
+    <ion-select [(ngModel)]="currency" (ionChange)="changeCurrency()">
+      <ion-option *ngFor="let currency of (currencies | selectedTicker)" value="{{currency.code}}">
+        {{currency.code}} - {{currency.text}}
+      </ion-option>
+    </ion-select>
+  </ion-item>
+  <chart [options]="options"></chart>
+</ion-content>
